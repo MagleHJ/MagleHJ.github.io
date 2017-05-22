@@ -1,0 +1,1180 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Neucha:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Cluster," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="最近在看聚类方面的论文，接触到了MCL聚类，在网上找了许久，没什么中文的资料，可能写的最具体的便是GatsbyNewton写的 马尔可夫聚类算法（MCL） 这篇博客了。但是，其中仍有一些不详细的地方。而MCL这一方法是在作者在其博士论文中提出的，篇幅太长，难以细读，也不适合作为用来学习MCL这一算法的文献。找来找去，终于找到一篇可以看的PDF文档，但每中不足的是此文档是英文的。趁此机会，结合上述材">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MCL聚类">
+<meta property="og:url" content="https://maglema.github.io/2017/05/16/2017/MCL_cluster/index.html">
+<meta property="og:site_name" content="Magle">
+<meta property="og:description" content="最近在看聚类方面的论文，接触到了MCL聚类，在网上找了许久，没什么中文的资料，可能写的最具体的便是GatsbyNewton写的 马尔可夫聚类算法（MCL） 这篇博客了。但是，其中仍有一些不详细的地方。而MCL这一方法是在作者在其博士论文中提出的，篇幅太长，难以细读，也不适合作为用来学习MCL这一算法的文献。找来找去，终于找到一篇可以看的PDF文档，但每中不足的是此文档是英文的。趁此机会，结合上述材">
+<meta property="og:image" content="https://maglema.github.io/2017/05/16/2017/MCL_cluster/vector_cluster.png">
+<meta property="og:image" content="https://maglema.github.io/2017/05/16/2017/MCL_cluster/graph_cluster.png">
+<meta property="og:image" content="https://maglema.github.io/2017/05/16/2017/MCL_cluster/exp_1.png">
+<meta property="og:image" content="https://maglema.github.io/2017/05/16/2017/MCL_cluster/exp_2.png">
+<meta property="og:image" content="https://maglema.github.io/2017/05/16/2017/MCL_cluster/exp_3.png">
+<meta property="og:image" content="https://maglema.github.io/2017/05/16/2017/MCL_cluster/exp_4.png">
+<meta property="og:image" content="https://maglema.github.io/2017/05/16/2017/MCL_cluster/exp_2.png">
+<meta property="og:image" content="https://maglema.github.io/2017/05/16/2017/MCL_cluster/MCL_step_1.png">
+<meta property="og:image" content="https://maglema.github.io/2017/05/16/2017/MCL_cluster/MCL_convergence.png">
+<meta property="og:image" content="https://maglema.github.io/2017/05/16/2017/MCL_cluster/MCL_overlapping.png">
+<meta property="og:image" content="https://maglema.github.io/2017/05/16/2017/MCL_cluster/MCL_inflation_param.png">
+<meta property="og:image" content="https://maglema.github.io/2017/05/16/2017/MCL_cluster/MCL_inflation_param_2.png">
+<meta property="og:updated_time" content="2017-05-17T06:12:07.368Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MCL聚类">
+<meta name="twitter:description" content="最近在看聚类方面的论文，接触到了MCL聚类，在网上找了许久，没什么中文的资料，可能写的最具体的便是GatsbyNewton写的 马尔可夫聚类算法（MCL） 这篇博客了。但是，其中仍有一些不详细的地方。而MCL这一方法是在作者在其博士论文中提出的，篇幅太长，难以细读，也不适合作为用来学习MCL这一算法的文献。找来找去，终于找到一篇可以看的PDF文档，但每中不足的是此文档是英文的。趁此机会，结合上述材">
+<meta name="twitter:image" content="https://maglema.github.io/2017/05/16/2017/MCL_cluster/vector_cluster.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'U390JZVJ5V',
+      apiKey: '57c1f4f0e72ae31dc48c2d1d8dfb2bae',
+      indexName: 'myBlog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://maglema.github.io/2017/05/16/2017/MCL_cluster/"/>
+
+
+
+
+
+  <title> MCL聚类 | Magle </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta custom-logo">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Magle</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <h1 class="site-subtitle" itemprop="description"></h1>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://maglema.github.io/2017/05/16/2017/MCL_cluster/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Magle">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Magle">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Magle" src="/images/avatar.png">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                MCL聚类
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-16T00:00:00+08:00">
+                2017-05-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Machine-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Machine Learning</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+ 
+        
+
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近在看聚类方面的论文，接触到了MCL聚类，在网上找了许久，没什么中文的资料，可能写的最具体的便是GatsbyNewton写的 <a href="http://blog.csdn.net/u010376788/article/details/50187321" target="_blank" rel="external">马尔可夫聚类算法（MCL）</a> 这篇博客了。但是，其中仍有一些不详细的地方。而MCL这一方法是在作者在其博士论文中提出的，篇幅太长，难以细读，也不适合作为用来学习MCL这一算法的文献。找来找去，终于找到一篇可以看的<a href="https://wenku.baidu.com/view/b7907665caaedd3383c4d31b.html" target="_blank" rel="external">PDF文档</a>，但每中不足的是此文档是英文的。趁此机会，结合上述材料，总结了一下MCL的基本思想，也为了往个人博客里添加些实质性的内容，便整理了这一文档。文章中可能会有不对的地方，希望大家相互交流 ｡◕‿◕｡</p>
+<a id="more"></a>
+<h1 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h1><h2 id="Different-Clustering"><a href="#Different-Clustering" class="headerlink" title="Different Clustering"></a>Different Clustering</h2><h3 id="Vector-Clustering"><a href="#Vector-Clustering" class="headerlink" title="Vector Clustering"></a>Vector Clustering</h3><p>我们在描述一个人时，常常会使用他所拥有的特点来表示，比如说：张三，男，高个子，有点壮。那么，这就可以用四维向量来表示，如果再复杂一些，就是更高维的向量空间了。下图是在二维空间之中的分布情况，可以较为直观的看出，以红色虚线为界，可以分为两个类别。</p>
+<center>
+<img src="/2017/05/16/2017/MCL_cluster/vector_cluster.png" width="300px">
+</center>
+
+<h3 id="Graph-Clustering"><a href="#Graph-Clustering" class="headerlink" title="Graph Clustering"></a>Graph Clustering</h3><p>和特征聚类不同，图聚类比较难以观察，整个算法以各点之间的距离作为突破口，可以这样形容：张三，是王五的好朋友，刚认识李四，对赵六很是反感。那么，对于该节点，我们无法直接得出他的特征，但能知道他的活动圈。利用图聚类，可以将同一社交范围的人聚合到一起。MCL就是属于图聚类的一种。</p>
+<center>
+<img src="/2017/05/16/2017/MCL_cluster/graph_cluster.png" width="200px">
+</center>
+
+<h2 id="Random-Walks"><a href="#Random-Walks" class="headerlink" title="Random Walks"></a>Random Walks</h2><p>首先看下图：</p>
+<center>
+<img src="/2017/05/16/2017/MCL_cluster/exp_1.png" width="300px">
+</center>
+
+<p>从图中，我们可以看到，不同的簇，应当具有以下的特点：</p>
+<ul>
+<li>位于同一簇的点，其内部的联系应当紧密，而和外部的联系则比较少（惺惺相惜）</li>
+</ul>
+<p>也就是说：如果你从一个点出发，到达其中的一个邻近点，那么你在簇内的可能性远大于离开当前簇，到达新簇的可能性——这就是MCL的核心思想。如果在一张图上进行多次的“<strong><em>Random Walks</em></strong>”，那么就有很大可能发现簇群，达到聚类的目的。而“<strong><em>Random Walks</em></strong>”的实现则是通过“<strong><em>Markov Chains</em></strong>”（马尔柯夫链）。</p>
+<h2 id="Markov-Chains"><a href="#Markov-Chains" class="headerlink" title="Markov Chains"></a>Markov Chains</h2><p>为了说明 <strong><em>Markov Chain</em></strong> ，我们使用如下的简单例子：</p>
+<center>
+
+<img src="/2017/05/16/2017/MCL_cluster/exp_2.png" width="300px">
+
+</center>
+
+<p>在此图中，我们可以分为两个子图：$V(1,2,3,4)$和$V(5,6,7)$，其中，$V_1$是一簇，$V_2$是另一簇。在同一簇群中，各点之间完全连接，在不同簇之间，仅有$(2,5)$一条边。</p>
+<ul>
+<li>现在，我们从$V_1$出发，假设每条边都一样，那么则一步之后我们有$1/3$的概率到达$V_2$，$1/3$的概率到达$V_3$，$1/3$的概率到达$V_4$，同时，有0的概率到达$V_5,V_6,V_7$。</li>
+<li>对于$V_2$，则有$1/4$的概率到达$V_1,V_3,V_4,V_5$，有0的概率到达$V_6,V_7$。</li>
+</ul>
+<p>通过计算每个点到达其余点的概率，我们可以得到如下的概率矩阵：</p>
+<script type="math/tex; mode=display">
+P =
+\left[
+\matrix{
+    0 & .25 & .33 & .33 & 0 & 0 & 0 \cr
+    .33 & 0 & .33 & .33 & .33 & 0 & 0 \cr
+    .33 & .25 & 0 & .33 & 0 & 0 & 0 \cr
+    .33 & .25 & .33 & 0 & 0 & 0 & 0 \cr
+    0 & .25 & 0 & 0 & 0 & .5 & .5 \cr
+    0 & 0 & 0 & 0 & .33 & 0 & .5 \cr
+    0 & 0 & 0 & 0 & .33 & .5 & 0
+}
+\right]</script><p>为了计算简单，我们使用一个更简单的矩阵进行接下来的说明：</p>
+<script type="math/tex; mode=display">
+P_1 = 
+\left[
+\matrix{
+  .6 & .2 \cr
+  .4 & .8
+}
+\right]</script><p>这表示的是从任意点出发，经过一步之后到达其它点的概率矩阵，那么，经过两次之后、三次以及最终的概率矩阵为：</p>
+<script type="math/tex; mode=display">
+P_2 = P_1P_1
+\left[
+\matrix{
+  .44 & .28 \cr
+  .56 & .72
+}
+\right]
+\\
+P_3 = P_2P_1
+\left[
+\matrix{
+  .35 & .32 \cr
+  .65 & .68
+}
+\right]
+\\
+\vdots
+\\
+P_n = 
+\left[
+\matrix{
+  .33 & .33 \cr
+  .66 & .66
+}
+\right]</script><p>根据上述例子，我们已经接触到了 <strong><em>Markov Chain</em></strong> ，那么现在就给其下一个定义：</p>
+<blockquote>
+<p>Markov Process——在给定当前知识或信息的情况下，过去（即当期以前的历史状态）对于预测将来（即当期以后的未来状态）是无关的。</p>
+<p>Markov Chain——如果有由随机变量$X_1,X_2,X_3\cdots$组成的数列。这些变量的范围，即他们所有可能取值的集合，被称为“状态空间”。而$X_n$的值则是在时间$n$的状态，如果$X_{n+1}$对于过去状态的条件概率分布满足：$P(X_{n+1} = x | X_0,X_1,X_2,\cdots,X_n) = P(X_{n+1} = x | X_n)$，则我们称其是一条Markov Chain</p>
+</blockquote>
+<h2 id="Weighted-Graphs"><a href="#Weighted-Graphs" class="headerlink" title="Weighted Graphs"></a>Weighted Graphs</h2><p>之前的例子中，图的边是没有权值的，也就是所有的边都是一样的。现在，为每条边添加一个权重（可以理解为亲密程度），那么，就需要重新计算到达每个点的概率了。</p>
+<p>假设有如下的图：</p>
+<center>
+<img src="/2017/05/16/2017/MCL_cluster/exp_3.png" width="200px">
+</center>
+
+<p>那么，其概率矩阵怎么计算？</p>
+<p>首先，我们要计算得到邻接矩阵，即：</p>
+<script type="math/tex; mode=display">
+edge = 
+\left[
+\matrix{
+0 & 2 & 1 & 3 \cr
+2 & 0 & 0 & 2 \cr
+1 & 0 & 0 & 0 \cr
+3 & 2 & 0 & 0
+}
+\right]</script><p>通过邻接矩阵，我们就可以计算得到概率矩阵了，具体计算公式如下：</p>
+<script type="math/tex; mode=display">
+P_{ij}=\frac{edge_{ij}}{\sum\limits_{i=1}^{n}{edge_{ij}}}</script><p>最后的概率矩阵如下：</p>
+<script type="math/tex; mode=display">
+P =
+\left[
+\matrix{
+  0 & 1/2 & 1 & 3/5 \cr
+  1/3 & 0 & 0 & 2/5 \cr
+  1/6 & 0 & 0 & 0\cr
+  1/2 & 1/2 & 0 & 0
+}
+\right]</script><p>之后的计算相同。</p>
+<h2 id="Self-Loops"><a href="#Self-Loops" class="headerlink" title="Self Loops"></a>Self Loops</h2><p>在上述的例子中均未考虑一个重要的问题，我们先来看一个例子：</p>
+<center>
+
+<img src="/2017/05/16/2017/MCL_cluster/exp_4.png" width="200px">
+
+</center>
+
+<p>很简单，就两个点，一条边。那么，它的概率矩阵呢：</p>
+<script type="math/tex; mode=display">
+P_{odd} = 
+\left[
+\matrix{
+    0 & 1 \cr
+    1 & 0 \cr
+}
+\right]
+\\
+P_{even} = 
+\left[
+\matrix{
+    1 &  0 \cr
+    0 & 1 \cr
+}
+\right]</script><p>仔细观察可以发现，这个概率矩阵不管进行几次计算，都不会收敛，而且，对于$P_{11}$和$P_{22}$而言，仅在奇数步后到达，在偶数步时，永远不可达。因此，无法进行随机游走（本来它就没有随机项供人选择）</p>
+<p>为了解决这个问题，我们可以为其添加自环来消除奇偶幂次带来的影响：</p>
+<script type="math/tex; mode=display">
+edge = 
+\left[
+\matrix{
+  1 & 1 \cr
+  1 & 1 \cr
+}
+\right]
+\\
+P = 
+\left[
+\matrix{
+  .5 & .5\cr
+  .5 & .5
+}
+\right]</script><h1 id="MCL"><a href="#MCL" class="headerlink" title="MCL"></a>MCL</h1><h2 id="Markov-Chain-Cluster-Structure"><a href="#Markov-Chain-Cluster-Structure" class="headerlink" title="Markov Chain Cluster Structure"></a>Markov Chain Cluster Structure</h2><p>利用 <strong><em>Random Walks</em></strong> 可以求出最终的概率矩阵，但是，在求的过程中，也丢失了大量的信息。</p>
+<center>
+<img src="/2017/05/16/2017/MCL_cluster/exp_2.png" width="300px">
+</center>
+
+<p>还是这张图，它的概率矩阵和最终的概率矩阵如下：</p>
+<script type="math/tex; mode=display">
+P =
+\left[
+\matrix{
+    0 & .25 & .33 & .33 & 0 & 0 & 0 \cr
+    .33 & 0 & .33 & .33 & .33 & 0 & 0 \cr
+    .33 & .25 & 0 & .33 & 0 & 0 & 0 \cr
+    .33 & .25 & .33 & 0 & 0 & 0 & 0 \cr
+    0 & .25 & 0 & 0 & 0 & .5 & .5 \cr
+    0 & 0 & 0 & 0 & .33 & 0 & .5 \cr
+    0 & 0 & 0 & 0 & .33 & .5 & 0
+}
+\right]
+\Longrightarrow
+\left[
+\matrix{
+    .15 & .15 & .15 & .15 & .15 & .15 & .15 \cr
+    .2 & .2 & .2 & .2 & .2 & .2 & .2 \cr
+    .15 & .15 & .15 & .15 & .15 & .15 & .15 \cr
+    .15 & .15 & .15 & .15 & .15 & .15 & .15 \cr
+    .15 & .15 & .15 & .15 & .15 & .15 & .15\cr
+    .1 & .1 & .1 & .1 & .1 & .1 & .1\cr
+    .1 & .1 & .1 & .1 & .1 & .1 & .1 & 
+}
+\right]</script><p>从最终的矩阵可以看出，其最终概率和起始点的位置无关！对于聚类，这并不是一个好消息，因为我们想要得到的是一个有明显区分度的矩阵来表示不同的类别。因此，我们需要对其进行一定的修改，这也是MCL主要要解决的问题。</p>
+<h2 id="Inflation"><a href="#Inflation" class="headerlink" title="Inflation"></a>Inflation</h2><p>如果说，前面的内容在介绍 <strong><em>Markov Chain</em></strong> 如何进行 <strong><em>Expansion</em></strong> 的话，那么，现在就添加一个新的过程： <strong><em>Inflation</em></strong> 。这个过程就是为了解决 <strong><em>Expansion</em></strong> 所导致的概率趋同问题的。</p>
+<p>简单的说，<strong><em>Inflation</em></strong> 就是将概率矩阵中的每个值进行了一次幂次扩大，这样就能使得强化紧密的点，弱化松散的点。（强者恒强，弱者恒弱）</p>
+<p>假设有矩阵$M^{k \times l}$，和一个给定的非负实数$r$，经过 <strong><em>Inflation</em></strong> 强化后的矩阵为$\Gamma_rM$，那么它的强化公式如下：</p>
+<script type="math/tex; mode=display">
+(\Gamma_rM)_{pq} = (M_{pq})^r / \sum\limits_{i=1}^k (M_{pq})^r</script><p>为了更直观的说明，我们来看下面的一个例子：</p>
+<script type="math/tex; mode=display">
+A = 
+\left[
+\matrix{
+    0 \cr
+    1/2 \cr
+    0 \cr
+    1/6 \cr
+    1/3
+}
+\right]</script><p>在 <strong><em>Inflation</em></strong> 之前，向量$A$ 就是一个正常的概率向量。为了令其具有更明显的区分度，对其进行 <strong><em>Inflation</em></strong> 强化。</p>
+<p>假设$r$的取值为2，$A^2$如下：</p>
+<script type="math/tex; mode=display">
+A^2 = 
+\left[
+\matrix{
+  0 \cr
+  1/4 \cr
+  0 \cr
+  1/36 \cr
+  1/9
+}
+\right]</script><p>对该向量进行标准化，保证$\sum\limits_{i=1}^n A_i = 1$。</p>
+<script type="math/tex; mode=display">
+\Gamma_rA = 
+\left[
+\matrix{
+    0 \cr
+    9/14 \cr
+    0 \cr
+    1/14 \cr
+    4/14
+}
+\right]</script><p>可以看出，进过一次变换后，区分度进一步的增加，这就为之后的聚类提供了保证。在这里要注明的是<strong><em>Inflation</em></strong> 的参数$r$会影响聚簇的粒度，这个在之后会有说明。</p>
+<h2 id="MCL-Algorithm"><a href="#MCL-Algorithm" class="headerlink" title="MCL Algorithm"></a>MCL Algorithm</h2><p>在MCL中， <strong><em>Expansion</em></strong> 和 <strong><em>Inflation</em></strong> 将不断的交替进行，<strong><em>Expansion</em></strong> 使得不同的区域之间的联系加强，而 <strong><em>Inflation</em></strong> 则不断的分化各点之间的联系。经过多次迭代，将渐渐出现聚集现象，以此便达到了聚类的效果。</p>
+<p>MCL的算法流程具体如下：</p>
+<ol>
+<li><p>输入：一个非全连通图，<strong><em>Expansion</em></strong> 时的参数$e$和 <strong><em>Inflation</em></strong> 的参数$r$。</p>
+<p><center>
+<img src="/2017/05/16/2017/MCL_cluster/MCL_step_1.png" width="150px">
+</center></p>
+<script type="math/tex; mode=display">
+e = 2, r = 2</script></li>
+<li><p>建立邻接矩阵</p>
+<script type="math/tex; mode=display">
+edge =
+\left[
+\matrix{
+  0 & 1 & 1 & 1 \cr
+  1 & 0 & 0 & 1 \cr
+  1 & 0 & 0 & 0 \cr
+  1 & 1 & 0 & 0
+}
+\right]</script></li>
+<li><p>添加自环</p>
+<script type="math/tex; mode=display">
+edge' =
+\left[
+\matrix{
+  1 & 1 & 1 & 1 \cr
+  1 & 1 & 0 & 1 \cr
+  1 & 0 & 1 & 0 \cr
+  1 & 1 & 0 & 1
+}
+\right]</script><p>​</p>
+</li>
+<li><p>标准化概率矩阵</p>
+<script type="math/tex; mode=display">
+P_0 =
+\left[
+\matrix{
+  1/4 & 1/3 & 1/2 & 1/3 \cr
+  1/4 & 1/3 & 0 & 1/3 \cr
+  1/4 & 0 & 1/2 & 0 \cr
+  1/4 & 1/3 & 0 & 1/3
+}
+\right]</script></li>
+<li><p>Expansion操作，每次对矩阵进行$e$次幂方</p>
+<script type="math/tex; mode=display">
+P_1 = P_0P_0 =
+\left[
+\matrix{
+  .35 & .31 & .38 & .31 \cr
+  .23 & .31 & .13 & .31 \cr
+  .19 & .08 & .38 & .08 \cr
+  .23 & .31 & .13 & .31
+}
+\right]</script></li>
+<li><p>Inflation操作，每次对矩阵内元素进行r次幂方，再进行标准化</p>
+<script type="math/tex; mode=display">
+P_1' =
+\left[
+\matrix{
+    .13 & .09 & .14 & .09 \cr
+    .05 & .09 & .02 & .09 \cr
+    .04 & .01 & .14 & .01 \cr
+    .05 & .09 & .02 & .09
+}
+\right]
+\\
+\Gamma_rP_1 = 
+\left[
+\matrix{
+    .47 & .33 & .45 & .33 \cr
+    .20 & .33 & .05 & .33 \cr
+    .13 & .02 & .45 & .02 \cr
+    .20 & .33 & .05 & .33
+}
+\right]</script></li>
+<li><p>重复步骤5和6，直到达到稳定</p>
+</li>
+<li><p>将结果矩阵转化为聚簇</p>
+</li>
+</ol>
+<h2 id="MCL-Algorithm-Convergence"><a href="#MCL-Algorithm-Convergence" class="headerlink" title="MCL Algorithm Convergence"></a>MCL Algorithm Convergence</h2><p>在作者的论文中，并没有证明MCL算法的收敛性。但是，在实验过程中，总是能够达到最终的收敛状态。下图是一个达到收敛的例子：</p>
+<center>
+
+<img src="/2017/05/16/2017/MCL_cluster/MCL_convergence.png">
+
+</center>
+
+<p>为了方便区分不同聚簇，我们将图上的点分为两类：<strong><em>Attractor</em></strong> 和 <strong><em>Vertex</em></strong> 。<strong><em>Attractor</em></strong> 代表了那些有着主导地位的点，这些点吸引着其它的点，将它们牢牢的聚集在周围；<strong><em>Vertex</em></strong> 则表示那些被吸引的点，它们没有主导地位，被 <strong><em>Attractor</em></strong> 所吸引着。其中，<strong><em>Attractor</em></strong> 所在的行必须至少有一个正值，聚集着它所在行中所有正值的点。可以看出，在这个例子中，总共有三个聚簇：{1，6，7，10}，{2，3，5}，{4，8，9，11，12}。</p>
+<p>当然，在MCL中也会存在着重叠的聚簇。如下图，当且仅当簇与簇是同构的时才出现一个点被多个聚簇所吸引。</p>
+<center>
+<img src="/2017/05/16/2017/MCL_cluster/MCL_overlapping.png" width="500px">
+</center>
+
+<h2 id="Inflation-Parameter"><a href="#Inflation-Parameter" class="headerlink" title="Inflation Parameter"></a>Inflation Parameter</h2><p>在之前有提到过<strong><em>Inflation</em></strong> 参数会对聚簇产生影响。一般的，随着$r$的增大，其粒度将减小。</p>
+<center>
+<img src="/2017/05/16/2017/MCL_cluster/MCL_inflation_param.png">
+</center>
+
+<p>从上图中还可以看出，聚簇的多少和$e$有着很大的关系，在大直径的图中就更为明显了。因为偏远地区的点和簇群中心的联系越来越少，便很可能出现“挖墙脚”的可能，以及簇群内部分化问题。</p>
+<center>
+<img src="/2017/05/16/2017/MCL_cluster/MCL_inflation_param_2.png">
+</center>
+
+<h2 id="Analysis-of-MCL"><a href="#Analysis-of-MCL" class="headerlink" title="Analysis of MCL"></a>Analysis of MCL</h2><p>MCL有着较为优良的性能，总的来说，它的优缺点如下：</p>
+<ul>
+<li>随着图大小的扩张，MCL有着良好的刻度</li>
+<li>可以在有权或无权的图上运行</li>
+<li>最后的聚类结果令人满意</li>
+<li>可以较好的处理噪声数据</li>
+<li>不需要人为规定簇群数量，而是可以根据参数自行确定</li>
+</ul>
+<ul>
+<li>不能发现发生重叠的点</li>
+<li>不适合在大图上使用（它的算法复杂度是$O(N^3)$）</li>
+</ul>
+<p>以上是我对MCL的一些总结看法，欢迎大家来和我交流讨论。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+  
+        <div class="post-tags">
+          
+            <a href="/tags/Cluster/" rel="tag"># Cluster</a>
+          
+        </div>
+      
+
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+         
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/18/2017/起点/" rel="next" title="起点">
+                <i class="fa fa-chevron-left"></i> 起点
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Magle" />
+          <p class="site-author-name" itemprop="name">Magle</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cnblogs.com/magle/" target="_blank" title="cnblogs">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  cnblogs
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.liaoxuefeng.com/" title="廖雪峰" target="_blank">廖雪峰</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Background"><span class="nav-number">1.</span> <span class="nav-text">Background</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Different-Clustering"><span class="nav-number">1.1.</span> <span class="nav-text">Different Clustering</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Vector-Clustering"><span class="nav-number">1.1.1.</span> <span class="nav-text">Vector Clustering</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Graph-Clustering"><span class="nav-number">1.1.2.</span> <span class="nav-text">Graph Clustering</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Random-Walks"><span class="nav-number">1.2.</span> <span class="nav-text">Random Walks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Markov-Chains"><span class="nav-number">1.3.</span> <span class="nav-text">Markov Chains</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Weighted-Graphs"><span class="nav-number">1.4.</span> <span class="nav-text">Weighted Graphs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Self-Loops"><span class="nav-number">1.5.</span> <span class="nav-text">Self Loops</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MCL"><span class="nav-number">2.</span> <span class="nav-text">MCL</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Markov-Chain-Cluster-Structure"><span class="nav-number">2.1.</span> <span class="nav-text">Markov Chain Cluster Structure</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Inflation"><span class="nav-number">2.2.</span> <span class="nav-text">Inflation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MCL-Algorithm"><span class="nav-number">2.3.</span> <span class="nav-text">MCL Algorithm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MCL-Algorithm-Convergence"><span class="nav-number">2.4.</span> <span class="nav-text">MCL Algorithm Convergence</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Inflation-Parameter"><span class="nav-number">2.5.</span> <span class="nav-text">Inflation Parameter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Analysis-of-MCL"><span class="nav-number">2.6.</span> <span class="nav-text">Analysis of MCL</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Magle</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" rel="external nofollow">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" rel="external nofollow">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
+  
+
+
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.0"></script>
+
+
+
+</body>
+</html>
