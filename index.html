@@ -300,6 +300,184 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://maglema.github.io/2017/06/17/2017/Pyer_Pythonic/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Magle">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Magle">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Magle" src="/images/avatar.png">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/17/2017/Pyer_Pythonic/" itemprop="url">
+                  Pyer日常——Pythonic
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-17T00:00:00+08:00">
+                2017-06-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+ 
+        
+
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>人生苦短，我用Python。漫漫人生，何必Python！</p>
+</blockquote>
+<p>“罗马不是一天建成的”，编写代码水平的提升也不可能一蹴而就，通过一点一滴的积累，才能从量变到质变的飞跃。——摘自《编写高质量代码——改善python程序的91个建议》</p>
+<p>正式成为Pyer近一年了，已经习惯了Python的思维方式，再也回不到原来的C、Java的严谨逻辑，只好静下心来学学Pythonic。</p>
+<h2 id="Pythonic"><a href="#Pythonic" class="headerlink" title="Pythonic"></a>Pythonic</h2><p>Python是什么，相信网上有很多定义，但Pythonic是什么，可能就不是一句两句能说的清楚的了。如果真的要用一句话，我将其理解为：用Python写诗。</p>
+<p>Pythonic，让伪代码变成代码。在《编写高质量代码——改善python程序的91个建议》（之后简称《Py建议》）中，举了一个快排的例子，其中的Python代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">quicksort</span><span class="params">(array)</span>:</span></div><div class="line">    less = []; greater = []</div><div class="line">    <span class="keyword">if</span> len(array) &lt;= <span class="number">1</span>:</div><div class="line">        <span class="keyword">return</span> array</div><div class="line">    pivot = array.pop()</div><div class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> array:</div><div class="line">        <span class="keyword">if</span> x &lt;= pivot: less.append(x)</div><div class="line">        <span class="keyword">else</span>: greater.append(x)</div><div class="line">    <span class="keyword">return</span> quciksort(less) + [pivot] + quicksort(greater)</div></pre></td></tr></table></figure>
+<p>这是一段可以运行的代码，但是它看上去就像是一段伪代码，这就是Python，拥有着无与伦比的可读性！</p>
+<p>虽然，这并不是真正意义上的快排（大量的低效操作），但是，作为Pyer，这个代码已经近乎完美了。</p>
+<p>在知道了Pythonic后，代码就可以具备以下的特点：</p>
+<h3 id="简洁"><a href="#简洁" class="headerlink" title="简洁"></a>简洁</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">a, b = b, a</div></pre></td></tr></table></figure>
+<p>简洁的交换，不在像诸如C之类的那样需要中间变量过度。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> rcd <span class="keyword">in</span> alist:</div><div class="line">    do_sth_with(rcd)</div></pre></td></tr></table></figure>
+<p>简洁的遍历，无需通过下标遍历。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">with</span> open(path) <span class="keyword">as</span> f:</div><div class="line">    do_sth_with(f)</div></pre></td></tr></table></figure>
+<p>简洁的文件操作，不再担心是否已经安全关闭。</p>
+<p>像这样简洁的操作，还有很多很多，不再赘述。</p>
+<h3 id="易读"><a href="#易读" class="headerlink" title="易读"></a>易读</h3><p>当然，简洁并不是简短。</p>
+<p>在C中，我曾经看到过各种高深莫测的代码，例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> a = <span class="number">1</span>;</div><div class="line"><span class="keyword">int</span> b = <span class="number">2</span>;</div><div class="line">a = a + b;</div><div class="line">b = a - b;</div><div class="line">a = a - b;</div></pre></td></tr></table></figure>
+<p>两个变量交换，无需过渡变量，Amazing！</p>
+<p>但是，不实用！！！</p>
+<p>Python中也是一样</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">a = <span class="string">'abcde'</span></div><div class="line">print(a[::<span class="number">-1</span>])</div></pre></td></tr></table></figure>
+<p>很简短的代码，但可读性太差！为了简化反向输出的代码，用上了Slice语法，的确很有意思，但是可读性太差！</p>
+<p>可读性，Python的重点，简洁的代码可读性高，简短的代码却并不一定了。用以下的方式，也可以实现上述的功能，却能让不懂Python的人也大致了解功能，岂不妙哉：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">print(list(reversed(a)))</div></pre></td></tr></table></figure>
+<p>还有一个例子就是Python的字符串操作。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">print(<span class="string">'Hello %s!'</span> % (<span class="string">'world'</span>, ))</div></pre></td></tr></table></figure>
+<p>这是一个格式化输出的例子。对于使用C的人来说，应该是很亲切的吧，但是，%s其实对可读性的影响很大。而Python为此提供了更加易读的方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">print(<span class="string">'&#123;greet&#125; from &#123;language&#125;.'</span>.format(greet=<span class="string">'Hello world'</span>, language=<span class="string">'Python'</span>))</div></pre></td></tr></table></figure>
+<p>str.format()方法清晰的表达了格式化的意图，而参数的使用也令得语句更易阅读，和%s相比，可读性大大增加。</p>
+<p>这就是Pythonic。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">Beautiful is better than ugly.</div><div class="line">Explicit is better than implicit.</div><div class="line">Simple is better than complex.</div><div class="line">Complex is better than complicated.</div><div class="line">Flat is better than nested.</div><div class="line">Sparse is better than dense.</div><div class="line">Readability counts.</div><div class="line">Special cases aren&apos;t special enough to break the rules.</div><div class="line">Although practicality beats purity.</div><div class="line">Errors should never pass silently.</div><div class="line">Unless explicitly silenced.</div><div class="line">In the face of ambiguity, refuse the temptation to guess.</div><div class="line">There should be one-- and preferably only one --obvious way to do it.</div><div class="line">Although that way may not be obvious at first unless you&apos;re Dutch.</div><div class="line">Now is better than never.</div><div class="line">Although never is often better than *right* now.</div><div class="line">If the implementation is hard to explain, it&apos;s a bad idea.</div><div class="line">If the implementation is easy to explain, it may be a good idea.</div><div class="line">Namespaces are one honking great idea -- let&apos;s do more of those!</div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+  
+
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+         
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="https://maglema.github.io/2017/05/25/2017/Python数据处理（一）——文件的读写与合并/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -762,7 +940,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -771,7 +949,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -780,7 +958,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
