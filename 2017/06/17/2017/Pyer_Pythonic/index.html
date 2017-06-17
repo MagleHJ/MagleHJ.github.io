@@ -102,7 +102,7 @@ PythonicPython是什么">
 “罗马不是一天建成的”，编写代码水平的提升也不可能一蹴而就，通过一点一滴的积累，才能从量变到质变的飞跃。——摘自《编写高质量代码——改善python程序的91个建议》
 正式成为Pyer近一年了，已经习惯了Python的思维方式，再也回不到原来的C、Java的严谨逻辑，只好静下心来学学Pythonic。
 PythonicPython是什么">
-<meta property="og:updated_time" content="2017-06-17T11:00:07.841Z">
+<meta property="og:updated_time" content="2017-06-17T11:01:35.262Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Pyer日常——Pythonic">
 <meta name="twitter:description" content="人生苦短，我用Python。漫漫人生，何必Python！
@@ -420,6 +420,7 @@ PythonicPython是什么">
 <p>“罗马不是一天建成的”，编写代码水平的提升也不可能一蹴而就，通过一点一滴的积累，才能从量变到质变的飞跃。——摘自《编写高质量代码——改善python程序的91个建议》</p>
 <p>正式成为Pyer近一年了，已经习惯了Python的思维方式，再也回不到原来的C、Java的严谨逻辑，只好静下心来学学Pythonic。</p>
 <h2 id="Pythonic"><a href="#Pythonic" class="headerlink" title="Pythonic"></a>Pythonic</h2><p>Python是什么，相信网上有很多定义，但Pythonic是什么，可能就不是一句两句能说的清楚的了。如果真的要用一句话，我将其理解为：用Python写诗。</p>
+<a id="more"></a>
 <p>Pythonic，让伪代码变成代码。在《编写高质量代码——改善python程序的91个建议》（之后简称《Py建议》）中，举了一个快排的例子，其中的Python代码如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">quicksort</span><span class="params">(array)</span>:</span></div><div class="line">    less = []; greater = []</div><div class="line">    <span class="keyword">if</span> len(array) &lt;= <span class="number">1</span>:</div><div class="line">        <span class="keyword">return</span> array</div><div class="line">    pivot = array.pop()</div><div class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> array:</div><div class="line">        <span class="keyword">if</span> x &lt;= pivot: less.append(x)</div><div class="line">        <span class="keyword">else</span>: greater.append(x)</div><div class="line">    <span class="keyword">return</span> quciksort(less) + [pivot] + quicksort(greater)</div></pre></td></tr></table></figure>
 <p>这是一段可以运行的代码，但是它看上去就像是一段伪代码，这就是Python，拥有着无与伦比的可读性！</p>
