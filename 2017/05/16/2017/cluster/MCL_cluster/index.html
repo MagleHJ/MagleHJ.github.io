@@ -72,7 +72,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Cluster," />
+  <meta name="keywords" content="聚类," />
 
 
 
@@ -91,26 +91,26 @@
 <meta name="description" content="最近在看聚类方面的论文，接触到了MCL聚类，在网上找了许久，没什么中文的资料，可能写的最具体的便是GatsbyNewton写的 马尔可夫聚类算法（MCL） 这篇博客了。但是，其中仍有一些不详细的地方。而MCL这一方法是在作者在其博士论文中提出的，篇幅太长，难以细读，也不适合作为用来学习MCL这一算法的文献。找来找去，终于找到一篇可以看的PDF文档，但每中不足的是此文档是英文的。趁此机会，结合上述材">
 <meta property="og:type" content="article">
 <meta property="og:title" content="我爱聚类之MCL">
-<meta property="og:url" content="https://maglema.github.io/2017/05/16/2017/MCL_cluster/index.html">
+<meta property="og:url" content="https://maglema.github.io/2017/05/16/2017/cluster/MCL_cluster/index.html">
 <meta property="og:site_name" content="Magle">
 <meta property="og:description" content="最近在看聚类方面的论文，接触到了MCL聚类，在网上找了许久，没什么中文的资料，可能写的最具体的便是GatsbyNewton写的 马尔可夫聚类算法（MCL） 这篇博客了。但是，其中仍有一些不详细的地方。而MCL这一方法是在作者在其博士论文中提出的，篇幅太长，难以细读，也不适合作为用来学习MCL这一算法的文献。找来找去，终于找到一篇可以看的PDF文档，但每中不足的是此文档是英文的。趁此机会，结合上述材">
-<meta property="og:image" content="https://maglema.github.io/2017/05/16/2017/MCL_cluster/vector_cluster.png">
-<meta property="og:image" content="https://maglema.github.io/2017/05/16/2017/MCL_cluster/graph_cluster.png">
-<meta property="og:image" content="https://maglema.github.io/2017/05/16/2017/MCL_cluster/exp_1.png">
-<meta property="og:image" content="https://maglema.github.io/2017/05/16/2017/MCL_cluster/exp_2.png">
-<meta property="og:image" content="https://maglema.github.io/2017/05/16/2017/MCL_cluster/exp_3.png">
-<meta property="og:image" content="https://maglema.github.io/2017/05/16/2017/MCL_cluster/exp_4.png">
-<meta property="og:image" content="https://maglema.github.io/2017/05/16/2017/MCL_cluster/exp_2.png">
-<meta property="og:image" content="https://maglema.github.io/2017/05/16/2017/MCL_cluster/MCL_step_1.png">
-<meta property="og:image" content="https://maglema.github.io/2017/05/16/2017/MCL_cluster/MCL_convergence.png">
-<meta property="og:image" content="https://maglema.github.io/2017/05/16/2017/MCL_cluster/MCL_overlapping.png">
-<meta property="og:image" content="https://maglema.github.io/2017/05/16/2017/MCL_cluster/MCL_inflation_param.png">
-<meta property="og:image" content="https://maglema.github.io/2017/05/16/2017/MCL_cluster/MCL_inflation_param_2.png">
-<meta property="og:updated_time" content="2017-06-17T06:41:44.810Z">
+<meta property="og:image" content="https://maglema.github.io/2017/05/16/2017/cluster/MCL_cluster/vector_cluster.png">
+<meta property="og:image" content="https://maglema.github.io/2017/05/16/2017/cluster/MCL_cluster/graph_cluster.png">
+<meta property="og:image" content="https://maglema.github.io/2017/05/16/2017/cluster/MCL_cluster/exp_1.png">
+<meta property="og:image" content="https://maglema.github.io/2017/05/16/2017/cluster/MCL_cluster/exp_2.png">
+<meta property="og:image" content="https://maglema.github.io/2017/05/16/2017/cluster/MCL_cluster/exp_3.png">
+<meta property="og:image" content="https://maglema.github.io/2017/05/16/2017/cluster/MCL_cluster/exp_4.png">
+<meta property="og:image" content="https://maglema.github.io/2017/05/16/2017/cluster/MCL_cluster/exp_2.png">
+<meta property="og:image" content="https://maglema.github.io/2017/05/16/2017/cluster/MCL_cluster/MCL_step_1.png">
+<meta property="og:image" content="https://maglema.github.io/2017/05/16/2017/cluster/MCL_cluster/MCL_convergence.png">
+<meta property="og:image" content="https://maglema.github.io/2017/05/16/2017/cluster/MCL_cluster/MCL_overlapping.png">
+<meta property="og:image" content="https://maglema.github.io/2017/05/16/2017/cluster/MCL_cluster/MCL_inflation_param.png">
+<meta property="og:image" content="https://maglema.github.io/2017/05/16/2017/cluster/MCL_cluster/MCL_inflation_param_2.png">
+<meta property="og:updated_time" content="2017-08-15T06:30:20.898Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="我爱聚类之MCL">
 <meta name="twitter:description" content="最近在看聚类方面的论文，接触到了MCL聚类，在网上找了许久，没什么中文的资料，可能写的最具体的便是GatsbyNewton写的 马尔可夫聚类算法（MCL） 这篇博客了。但是，其中仍有一些不详细的地方。而MCL这一方法是在作者在其博士论文中提出的，篇幅太长，难以细读，也不适合作为用来学习MCL这一算法的文献。找来找去，终于找到一篇可以看的PDF文档，但每中不足的是此文档是英文的。趁此机会，结合上述材">
-<meta name="twitter:image" content="https://maglema.github.io/2017/05/16/2017/MCL_cluster/vector_cluster.png">
+<meta name="twitter:image" content="https://maglema.github.io/2017/05/16/2017/cluster/MCL_cluster/vector_cluster.png">
 
 
 
@@ -138,7 +138,7 @@
 
 
 
-  <link rel="canonical" href="https://maglema.github.io/2017/05/16/2017/MCL_cluster/"/>
+  <link rel="canonical" href="https://maglema.github.io/2017/05/16/2017/cluster/MCL_cluster/"/>
 
 
 
@@ -315,7 +315,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://maglema.github.io/2017/05/16/2017/MCL_cluster/">
+  <link itemprop="mainEntityOfPage" href="https://maglema.github.io/2017/05/16/2017/cluster/MCL_cluster/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Magle">
@@ -377,8 +377,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Machine-Learning/" itemprop="url" rel="index">
-                    <span itemprop="name">Machine Learning</span>
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
                   </a>
                 </span>
 
@@ -419,17 +419,17 @@
 <a id="more"></a>
 <h1 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h1><h2 id="Different-Clustering"><a href="#Different-Clustering" class="headerlink" title="Different Clustering"></a>Different Clustering</h2><h3 id="Vector-Clustering"><a href="#Vector-Clustering" class="headerlink" title="Vector Clustering"></a>Vector Clustering</h3><p>我们在描述一个人时，常常会使用他所拥有的特点来表示，比如说：张三，男，高个子，有点壮。那么，这就可以用四维向量来表示，如果再复杂一些，就是更高维的向量空间了。下图是在二维空间之中的分布情况，可以较为直观的看出，以红色虚线为界，可以分为两个类别。</p>
 <center>
-<img src="/2017/05/16/2017/MCL_cluster/vector_cluster.png" width="300px">
+<img src="/2017/05/16/2017/cluster/MCL_cluster/vector_cluster.png" width="300px">
 </center>
 
 <h3 id="Graph-Clustering"><a href="#Graph-Clustering" class="headerlink" title="Graph Clustering"></a>Graph Clustering</h3><p>和特征聚类不同，图聚类比较难以观察，整个算法以各点之间的距离作为突破口，可以这样形容：张三，是王五的好朋友，刚认识李四，对赵六很是反感。那么，对于该节点，我们无法直接得出他的特征，但能知道他的活动圈。利用图聚类，可以将同一社交范围的人聚合到一起。MCL就是属于图聚类的一种。</p>
 <center>
-<img src="/2017/05/16/2017/MCL_cluster/graph_cluster.png" width="200px">
+<img src="/2017/05/16/2017/cluster/MCL_cluster/graph_cluster.png" width="200px">
 </center>
 
 <h2 id="Random-Walks"><a href="#Random-Walks" class="headerlink" title="Random Walks"></a>Random Walks</h2><p>首先看下图：</p>
 <center>
-<img src="/2017/05/16/2017/MCL_cluster/exp_1.png" width="300px">
+<img src="/2017/05/16/2017/cluster/MCL_cluster/exp_1.png" width="300px">
 </center>
 
 <p>从图中，我们可以看到，不同的簇，应当具有以下的特点：</p>
@@ -440,7 +440,7 @@
 <h2 id="Markov-Chains"><a href="#Markov-Chains" class="headerlink" title="Markov Chains"></a>Markov Chains</h2><p>为了说明 <strong><em>Markov Chain</em></strong> ，我们使用如下的简单例子：</p>
 <center>
 
-<img src="/2017/05/16/2017/MCL_cluster/exp_2.png" width="300px">
+<img src="/2017/05/16/2017/cluster/MCL_cluster/exp_2.png" width="300px">
 
 </center>
 
@@ -504,7 +504,7 @@ P_n =
 <h2 id="Weighted-Graphs"><a href="#Weighted-Graphs" class="headerlink" title="Weighted Graphs"></a>Weighted Graphs</h2><p>之前的例子中，图的边是没有权值的，也就是所有的边都是一样的。现在，为每条边添加一个权重（可以理解为亲密程度），那么，就需要重新计算到达每个点的概率了。</p>
 <p>假设有如下的图：</p>
 <center>
-<img src="/2017/05/16/2017/MCL_cluster/exp_3.png" width="200px">
+<img src="/2017/05/16/2017/cluster/MCL_cluster/exp_3.png" width="200px">
 </center>
 
 <p>那么，其概率矩阵怎么计算？</p>
@@ -534,7 +534,7 @@ P =
 <h2 id="Self-Loops"><a href="#Self-Loops" class="headerlink" title="Self Loops"></a>Self Loops</h2><p>在上述的例子中均未考虑一个重要的问题，我们先来看一个例子：</p>
 <center>
 
-<img src="/2017/05/16/2017/MCL_cluster/exp_4.png" width="200px">
+<img src="/2017/05/16/2017/cluster/MCL_cluster/exp_4.png" width="200px">
 
 </center>
 
@@ -573,7 +573,7 @@ P =
 }
 \right]</script><h1 id="MCL"><a href="#MCL" class="headerlink" title="MCL"></a>MCL</h1><h2 id="Markov-Chain-Cluster-Structure"><a href="#Markov-Chain-Cluster-Structure" class="headerlink" title="Markov Chain Cluster Structure"></a>Markov Chain Cluster Structure</h2><p>利用 <strong><em>Random Walks</em></strong> 可以求出最终的概率矩阵，但是，在求的过程中，也丢失了大量的信息。</p>
 <center>
-<img src="/2017/05/16/2017/MCL_cluster/exp_2.png" width="300px">
+<img src="/2017/05/16/2017/cluster/MCL_cluster/exp_2.png" width="300px">
 </center>
 
 <p>还是这张图，它的概率矩阵和最终的概率矩阵如下：</p>
@@ -646,7 +646,7 @@ A^2 =
 <ol>
 <li><p>输入：一个非全连通图，<strong><em>Expansion</em></strong> 时的参数$e$和 <strong><em>Inflation</em></strong> 的参数$r$。</p>
 <p><center>
-<img src="/2017/05/16/2017/MCL_cluster/MCL_step_1.png" width="150px">
+<img src="/2017/05/16/2017/cluster/MCL_cluster/MCL_step_1.png" width="150px">
 </center></p>
 <script type="math/tex; mode=display">
 e = 2, r = 2</script></li>
@@ -724,24 +724,24 @@ P_1' =
 <h2 id="MCL-Algorithm-Convergence"><a href="#MCL-Algorithm-Convergence" class="headerlink" title="MCL Algorithm Convergence"></a>MCL Algorithm Convergence</h2><p>在作者的论文中，并没有证明MCL算法的收敛性。但是，在实验过程中，总是能够达到最终的收敛状态。下图是一个达到收敛的例子：</p>
 <center>
 
-<img src="/2017/05/16/2017/MCL_cluster/MCL_convergence.png">
+<img src="/2017/05/16/2017/cluster/MCL_cluster/MCL_convergence.png">
 
 </center>
 
 <p>为了方便区分不同聚簇，我们将图上的点分为两类：<strong><em>Attractor</em></strong> 和 <strong><em>Vertex</em></strong> 。<strong><em>Attractor</em></strong> 代表了那些有着主导地位的点，这些点吸引着其它的点，将它们牢牢的聚集在周围；<strong><em>Vertex</em></strong> 则表示那些被吸引的点，它们没有主导地位，被 <strong><em>Attractor</em></strong> 所吸引着。其中，<strong><em>Attractor</em></strong> 所在的行必须至少有一个正值，聚集着它所在行中所有正值的点。可以看出，在这个例子中，总共有三个聚簇：{1，6，7，10}，{2，3，5}，{4，8，9，11，12}。</p>
 <p>当然，在MCL中也会存在着重叠的聚簇。如下图，当且仅当簇与簇是同构的时才出现一个点被多个聚簇所吸引。</p>
 <center>
-<img src="/2017/05/16/2017/MCL_cluster/MCL_overlapping.png" width="500px">
+<img src="/2017/05/16/2017/cluster/MCL_cluster/MCL_overlapping.png" width="500px">
 </center>
 
 <h2 id="Inflation-Parameter"><a href="#Inflation-Parameter" class="headerlink" title="Inflation Parameter"></a>Inflation Parameter</h2><p>在之前有提到过<strong><em>Inflation</em></strong> 参数会对聚簇产生影响。一般的，随着$r$的增大，其粒度将减小。</p>
 <center>
-<img src="/2017/05/16/2017/MCL_cluster/MCL_inflation_param.png">
+<img src="/2017/05/16/2017/cluster/MCL_cluster/MCL_inflation_param.png">
 </center>
 
 <p>从上图中还可以看出，聚簇的多少和$e$有着很大的关系，在大直径的图中就更为明显了。因为偏远地区的点和簇群中心的联系越来越少，便很可能出现“挖墙脚”的可能，以及簇群内部分化问题。</p>
 <center>
-<img src="/2017/05/16/2017/MCL_cluster/MCL_inflation_param_2.png">
+<img src="/2017/05/16/2017/cluster/MCL_cluster/MCL_inflation_param_2.png">
 </center>
 
 <h2 id="Analysis-of-MCL"><a href="#Analysis-of-MCL" class="headerlink" title="Analysis of MCL"></a>Analysis of MCL</h2><p>MCL有着较为优良的性能，总的来说，它的优缺点如下：</p>
@@ -770,7 +770,7 @@ P_1' =
   
         <div class="post-tags">
           
-            <a href="/tags/Cluster/" rel="tag"># Cluster</a>
+            <a href="/tags/聚类/" rel="tag"># 聚类</a>
           
         </div>
       
@@ -872,7 +872,7 @@ P_1' =
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -890,7 +890,7 @@ P_1' =
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
